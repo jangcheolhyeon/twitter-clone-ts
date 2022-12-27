@@ -17,6 +17,7 @@
     "@types/react-dom": "^18.0.9",
     "@types/uuid": "^9.0.0",
     "firebase": "^9.15.0",
+    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.5",
@@ -51,8 +52,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "gh-pages": "^4.0.0"
-  },
-  "homepage": "http://jangcheolhyeon.github.io/twitter-clone-ts" 
+  "homepage": "https://jangcheolhyeon.github.io/twitter-clone-ts"
 }
