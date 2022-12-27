@@ -42,7 +42,7 @@ const Home = ({ messages, userObj, usersProfile, currentUser, setUsersProfile, c
             setUsersProfile(newUsersProfile);
         }
     }, [userObj])
-
+    
     const insertUser = async() => {
         await addDoc(collection(db, 'usersInfo'), {
             userId : userObj?.uid,
@@ -58,7 +58,7 @@ const Home = ({ messages, userObj, usersProfile, currentUser, setUsersProfile, c
 
     return(
         <>
-        {usersProfile.length === 0 ? (
+        {usersProfile.length === 0 && currentUser !== undefined ? (
             <div className='container'>
             </div>
         ) : (

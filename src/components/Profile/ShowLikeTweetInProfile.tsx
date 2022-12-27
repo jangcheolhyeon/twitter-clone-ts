@@ -30,9 +30,7 @@ const ShowLikeTweetInProfile = ({ userObj, currentUser, currentPage, messages, t
     if(!tweets || !myLikeList){
         return null;
     }
-
-    console.log("myLikeList", myLikeList);
-
+    
     return(
         <>
             {Boolean(myLikeList.length) ? (

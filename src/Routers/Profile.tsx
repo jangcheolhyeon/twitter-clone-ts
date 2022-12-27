@@ -82,12 +82,6 @@ const Profile = ({ userObj, setUserObj, messages, currentUser, currentPage, refr
             setMyTweetList(newMyTweetList);
         }
     }, [currentUser])
-
-    useEffect(() => {
-        console.log("myTweetList", myTweetList);
-
-    }, [myTweetList, ])
-
         
     useEffect(() => {
         if(usersProfile.length === 0) return;

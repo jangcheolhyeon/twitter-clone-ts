@@ -84,6 +84,7 @@ export type TSetToastText = React.Dispatch<React.SetStateAction<string>>;
 export type TRefreshUserObj = () => void;
 
 
+
 const AppRouter = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
     const [userObj, setUserObj] = useState<IUserObj>(null);
@@ -154,13 +155,11 @@ const AppRouter = () => {
             
             setUsersProfile(newUsersInfo);
         });
-
     }, []);
 
     useEffect(() => {
         setCurrentUser(usersProfile?.filter(element => element.userId === userObj?.uid)[0]);
     }, [userObj, usersProfile])
-
 
     const refreshUserObj = () => {
         setUserObj(getAuth().currentUser);
@@ -169,7 +168,9 @@ const AppRouter = () => {
     return(
         <>
             <Router>
-                {init && usersProfile !== undefined && currentUser !== undefined ? (
+                {/* {init ? ( */}
+                {init && usersProfile !== undefined ? (
+                    
                     <>
                         {isLoggedIn && toastAlert &&
                             <ToastNotification text={toastText} setToastAlert={setToastAlert}/>
@@ -177,22 +178,23 @@ const AppRouter = () => {
                         
                         {isLoggedIn && <TopNavi currentPage={currentPage} userObj={userObj}/>}
                         {isLoggedIn && <Navigation userObj={userObj}/>}
+                        {/* currentUser, usersProfile !== undefined */}
                             <Routes>
                                 {isLoggedIn ? (
                                     <>
-                                        <Route path='/' element={<Home userObj={userObj} currentUser={currentUser} messages={messages} usersProfile={usersProfile} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} />} />
+                                        <Route path='/' element={<Home userObj={userObj} currentUser={currentUser as IUsersProfile} messages={messages} usersProfile={usersProfile} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} />} />
                                         
-                                        <Route path='/profile' element={<Profile messages={messages} currentUser={currentUser} refreshUserObj={refreshUserObj} userObj={userObj} setUserObj={setUserObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} />} />
+                                        <Route path='/profile' element={<Profile messages={messages} currentUser={currentUser as IUsersProfile} refreshUserObj={refreshUserObj} userObj={userObj} setUserObj={setUserObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} />} />
                                         
-                                        <Route path='/details' element={<Details messages={messages} currentUser={currentUser} tweetDetail={tweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} usersProfile={usersProfile} setUsersProfile={setUsersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText}/>} />
+                                        <Route path='/details' element={<Details messages={messages} currentUser={currentUser as IUsersProfile} tweetDetail={tweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} usersProfile={usersProfile} setUsersProfile={setUsersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText}/>} />
                                         
-                                        <Route path='/detailsParent' element={<Details messages={messages} currentUser={currentUser} tweetDetail={tweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} usersProfile={usersProfile} setUsersProfile={setUsersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} />} />                                   
+                                        <Route path='/detailsParent' element={<Details messages={messages} currentUser={currentUser as IUsersProfile} tweetDetail={tweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} usersProfile={usersProfile} setUsersProfile={setUsersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} />} />                                   
                                     </>
                                 ) : (
                                     <Route path='/' element={<Auth />} />
                                 )}
                             </Routes>
-                        {isLoggedIn && <SideRecommend usersProfile={usersProfile} userObj={userObj} currentUser={currentUser} />}
+                        {isLoggedIn && <SideRecommend usersProfile={usersProfile} userObj={userObj} currentUser={currentUser as IUsersProfile} />}
                     </>
                 ) : (
                     <span className='loading_page'>LOADING...</span>
