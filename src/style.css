@@ -1289,6 +1289,12 @@ nav{
   border-radius: 30px;
 }
 
+.tweet_modal_content_container > .user_img_container > svg {
+  width:60px;
+  height:60px;
+  border-radius: 30px;
+}
+
 .tweet_modal_content_container > .user_tweet_container{
   height:100%;
   width:100%;
