@@ -17,7 +17,6 @@ const SideRecommend = ({ usersProfile, userObj, currentUser, currentPage } : Sid
 
 
     const shuffleArray = (usersProfile : IUsersProfiles, number : number) => {
-        console.log("shuffleArray");
         let newShuffledArray = [];
         
         for(let i=0;i<usersProfile.length;i++){
@@ -29,20 +28,20 @@ const SideRecommend = ({ usersProfile, userObj, currentUser, currentPage } : Sid
 
 
     useEffect(() => {
-        const randomNumberArray = shuffleArray(usersProfile, 3);
-        
+        const usersProfileWithoutMe : IUsersProfiles = usersProfile.filter((element) => {
+            return element.userId !== userObj?.uid;
+        });
+
+        const randomNumberArray = shuffleArray(usersProfileWithoutMe, 3);        
+
         const filteredUsersProfile = randomNumberArray.map(element => {
-            return usersProfile.filter((element) => {
+            return usersProfileWithoutMe.filter((element) => {
                 return element.userId !== userObj?.uid;
             })[element];
         })
 
         setRandomUsersProfile(filteredUsersProfile);
     }, [currentPage])
-
-    useEffect(() => {
-        console.log(randomUsersProfile);
-    }, [randomUsersProfile])
 
 
     return(
@@ -66,7 +65,7 @@ const SideRecommend = ({ usersProfile, userObj, currentUser, currentPage } : Sid
                                 {randomUsersProfile.map((element) => {
                                     return(
                                         <RecommendFriend 
-                                            user={element} currentUser={currentUser} usersProfile={usersProfile} userObj={userObj} emailHoverState={false}
+                                            key={element.userId} user={element} currentUser={currentUser} usersProfile={usersProfile} userObj={userObj} emailHoverState={false}
                                         />
                                     );
                                 })}
