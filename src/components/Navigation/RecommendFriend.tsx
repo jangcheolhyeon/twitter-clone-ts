@@ -112,7 +112,12 @@ const RecommendFriend = ({ user, currentUser, userObj, usersProfile, emailHoverS
                     </div>
 
                     <div className="user_display_name">
-                        <span>{user?.displayName}</span>
+                        {user?.displayName ? (
+                            <span>{user?.displayName}</span>
+                        ) : (
+                            <span>{user?.email?.split('@')[0]}</span>
+                        )}
+                        {/* <span>{user?.displayName}</span> */}
                     </div>
                     
                     {user && <FollowAction user={user} followState={followState} followingHover={followingHover} onFollowClick={onFollowClick} setFollowingHover={setFollowingHover} /> }
