@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
-import { ITweetMessage, ITweetMessages, IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TRefreshUserObj, TSetCurrentPage, TSetToastAlert, TSetToastText, TSetTweetDetail, TSetUserObj, TSetUsersProfile, TUserObj } from '../components/AppRouter';
+import { ITweetMessages, IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TGetCurrentUser, TRefreshUserObj, TSetCurrentPage, TSetToastAlert, TSetToastText, TSetTweetDetail, TSetUserObj, TSetUsersProfile } from '../components/AppRouter';
 import UpdateUserProfile from '../components/Profile/UpdateUserProfile';
 import UserHistoryInProfile from '../components/Profile/UserHistoryInProfile';
 
@@ -19,6 +19,7 @@ interface ProfileProp{
     setToastText : TSetToastText;
     setUsersProfile : TSetUsersProfile;
     currentUser : IUsersProfile;
+    getCurrentUser : TGetCurrentUser;
 }
 
 export type TMyTweetList = ITweetMessages | [] | null;
@@ -30,7 +31,7 @@ export type TSetUserBackgroundAttachment = React.Dispatch<React.SetStateAction<T
 export type TSetChangedUserBackgroundAttachment = React.Dispatch<React.SetStateAction<string | undefined>>;
 
 
-const Profile = ({ userObj, setUserObj, messages, currentUser, currentPage, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile, setTweetDetail } : ProfileProp) => {
+const Profile = ({ userObj, setUserObj, messages, currentUser, currentPage, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile, setTweetDetail, getCurrentUser } : ProfileProp) => {
     const [newDisplayName, setNewDisplayName] = useState<TNewDisplayName>(userObj?.displayName);
     const [userBackgroundAttachment, setUserBackgroundAttachment] = useState<TUserBackgroundAttachment>();
     const [changedUserBackgroundAttachment, setChangedUserBackgroundAttachment] = useState<string | undefined >();
@@ -44,19 +45,21 @@ const Profile = ({ userObj, setUserObj, messages, currentUser, currentPage, refr
         const newMyTweetList = messages.filter(element => element.userId === userObj?.uid);
         setMyTweetList(newMyTweetList);
         setTweets(messages);
-        if(!currentUser && usersProfile.length !== 0){
-            let newUsersProfile : IUsersProfiles = [...usersProfile, {
-                userId : userObj?.uid,
-                userImage : userObj?.photoURL,
-                displayName : userObj?.displayName,
-                email : userObj?.email,
-                pin : '',
-                follower:[],
-                following:[],
-                backgroundImg : null,
-            }];
-            setUsersProfile(newUsersProfile);
-        }
+        // if(!currentUser && usersProfile.length !== 0){
+        //     let newUsersProfile : IUsersProfiles = [...usersProfile, {
+        //         userId : userObj?.uid,
+        //         userImage : userObj?.photoURL,
+        //         displayName : userObj?.displayName,
+        //         email : userObj?.email,
+        //         pin : '',
+        //         follower:[],
+        //         following:[],
+        //         backgroundImg : null,
+        //     }];
+        //     setUsersProfile(newUsersProfile);
+        // }
+        getCurrentUser();
+        
         setCurrentPage('profile');
 
     }, []);
@@ -84,30 +87,17 @@ const Profile = ({ userObj, setUserObj, messages, currentUser, currentPage, refr
     }, [currentUser])
         
     useEffect(() => {
-        if(usersProfile.length === 0) return;
+        if(usersProfile.length === 0 || currentUser === undefined) return;
 
         setFollowersCnt(currentUser.follower.length);
         setFollowingCnt(currentUser.following.length);
     }, [usersProfile]) 
 
     
-    const createAccountUser = () => {
-        if(userObj !== null){
-            // if(userObj.displayName === null || userObj.displayName === undefined){
-                if(!userObj.displayName){
-                    let newUserObj = {...userObj};
-                    if(userObj.email)
-                    newUserObj.displayName = userObj.email.split('@')[0];
-                    
-                    setUserObj(newUserObj);
-                }
-            }
-            
-        }
         
     return(
         <>
-            {myTweetList === null || usersProfile.length === 0 ? (
+            {myTweetList === null || usersProfile.length === 0 || currentUser === undefined? (
                 <div className='container'>
                 </div>
             ) : (

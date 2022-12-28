@@ -84,6 +84,7 @@ export type TSetToastText = React.Dispatch<React.SetStateAction<string>>;
 export type TRefreshUserObj = () => void;
 // export type TSetCurrentUser = React.Dispatch<React.SetStateAction<IUsersProfile | undefined>>;
 export type TSetCurrentUser = React.Dispatch<React.SetStateAction<IUsersProfile | undefined>>
+export type TGetCurrentUser = () => void;
 
 
 
@@ -100,7 +101,6 @@ const AppRouter = () => {
     const [currentUser, setCurrentUser] = useState<IUsersProfile>();
     const isInitialMount = useRef<boolean>(true);
 
-
     useEffect(() => {
         const q = query(collection(db, 'tictoc'), orderBy("bundle", "asc"), orderBy("createdAt", "asc"));
         onSnapshot(q, (snapshot) => {
@@ -115,19 +115,20 @@ const AppRouter = () => {
     }, [])
 
     useEffect(() => {
-        const q = query(collection(db, 'usersInfo'));
-        onSnapshot(q, (snapshot) => {
-            const newUsersInfo : any = snapshot.docs.map((doc) => {
-                return {
-                    id : doc.id,
-                    ...doc.data()
-                }
-            });
+        // const q = query(collection(db, 'usersInfo'));
+        // onSnapshot(q, (snapshot) => {
+        //     const newUsersInfo : any = snapshot.docs.map((doc) => {
+        //         return {
+        //             id : doc.id,
+        //             ...doc.data()
+        //         }
+        //     });
             
-            setUsersProfile(newUsersInfo);
-        });
+        //     setUsersProfile(newUsersInfo);
+        // });
 
-        setCurrentUser(usersProfile?.filter(element => element.userId === userObj?.uid)[0])
+        // setCurrentUser(usersProfile?.filter(element => element.userId === userObj?.uid)[0]);
+        getCurrentUser();
     }, [])
 
     useEffect(() => {
@@ -166,8 +167,13 @@ const AppRouter = () => {
 
     useEffect(() => {
         if(isInitialMount.current){
+            console.log("firstRender")
             isInitialMount.current = false;
+            if(currentPage === 'profile'){
+                setCurrentUser(usersProfile?.filter(element => element.userId === userObj?.uid)[0])
+            }
         } else{
+            console.log("not first render");
             setCurrentUser(usersProfile?.filter(element => element.userId === userObj?.uid)[0]);
         }
         
@@ -193,6 +199,10 @@ const AppRouter = () => {
 
     }, [currentUser])
 
+    useEffect(() => {
+        createAccountUser();
+    }, [userObj])
+
     const insertUser = async() => {
         await addDoc(collection(db, 'usersInfo'), {
             userId : userObj?.uid,
@@ -210,6 +220,34 @@ const AppRouter = () => {
         setUserObj(getAuth().currentUser);
     }
 
+    const getCurrentUser = () => {
+        const q = query(collection(db, 'usersInfo'));
+        onSnapshot(q, (snapshot) => {
+            const newUsersInfo : any = snapshot.docs.map((doc) => {
+                return {
+                    id : doc.id,
+                    ...doc.data()
+                }
+            });
+            
+            setUsersProfile(newUsersInfo);
+        });
+
+        setCurrentUser(usersProfile?.filter(element => element.userId === userObj?.uid)[0]);
+    }
+
+    const createAccountUser = () => {
+        if(userObj !== null){
+            // if(userObj.displayName === null || userObj.displayName === undefined){
+            if(!userObj.displayName){
+                let newUserObj = {...userObj};
+                if(userObj.email)
+                newUserObj.displayName = userObj.email.split('@')[0];
+                setUserObj(newUserObj);
+            }
+        }        
+    }
+
     return(
         <>
             <Router>
@@ -222,14 +260,14 @@ const AppRouter = () => {
                         }
                         
                         {isLoggedIn && <TopNavi currentPage={currentPage} userObj={userObj}/>}
-                        {isLoggedIn && <Navigation userObj={userObj} setUserObj={setUserObj} />}
+                        {isLoggedIn && <Navigation userObj={userObj} />}
                         {/* currentUser, usersProfile !== undefined */}
                             <Routes>
                                 {isLoggedIn ? (
                                     <>
                                         <Route path='/' element={<Home userObj={userObj} currentUser={currentUser as IUsersProfile} setCurrentUser={setCurrentUser} messages={messages} usersProfile={usersProfile} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} />} />
                                         
-                                        <Route path='/profile' element={<Profile messages={messages} currentUser={currentUser as IUsersProfile} refreshUserObj={refreshUserObj} userObj={userObj} setUserObj={setUserObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} />} />
+                                        <Route path='/profile' element={<Profile messages={messages} currentUser={currentUser as IUsersProfile} refreshUserObj={refreshUserObj} userObj={userObj} setUserObj={setUserObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} getCurrentUser={getCurrentUser}/>} />
                                         
                                         <Route path='/details' element={<Details messages={messages} currentUser={currentUser as IUsersProfile} tweetDetail={tweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} usersProfile={usersProfile} setUsersProfile={setUsersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText}/>} />
                                         
@@ -239,7 +277,7 @@ const AppRouter = () => {
                                     <Route path='/' element={<Auth />} />
                                 )}
                             </Routes>
-                        {isLoggedIn && <SideRecommend usersProfile={usersProfile} userObj={userObj} currentUser={currentUser as IUsersProfile} />}
+                        {isLoggedIn && <SideRecommend usersProfile={usersProfile} userObj={userObj} currentUser={currentUser as IUsersProfile} currentPage={currentPage}/>}
                     </>
                 ) : (
                     <span className='loading_page'>LOADING...</span>
