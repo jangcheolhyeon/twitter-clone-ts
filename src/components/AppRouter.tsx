@@ -265,7 +265,7 @@ const AppRouter = () => {
                             <Routes>
                                 {isLoggedIn ? (
                                     <>
-                                        <Route path='/' element={<Home userObj={userObj} currentUser={currentUser as IUsersProfile} setCurrentUser={setCurrentUser} messages={messages} usersProfile={usersProfile} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} />} />
+                                        <Route path='/' element={<Home userObj={userObj} currentUser={currentUser as IUsersProfile} getCurrentUser={getCurrentUser} setCurrentUser={setCurrentUser} messages={messages} usersProfile={usersProfile} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} />} />
                                         
                                         <Route path='/profile' element={<Profile messages={messages} currentUser={currentUser as IUsersProfile} refreshUserObj={refreshUserObj} userObj={userObj} setUserObj={setUserObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} getCurrentUser={getCurrentUser}/>} />
                                         

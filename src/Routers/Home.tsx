@@ -1,6 +1,6 @@
 import React, { useEffect, } from 'react';
 import { collection, addDoc } from "firebase/firestore"; 
-import { TSetUsersProfile, IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TSetCurrentPage, TSetTweetDetail, TSetToastAlert, TSetToastText, ITweetMessages, TSetCurrentUser } from '../components/AppRouter';
+import { TSetUsersProfile, IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TSetCurrentPage, TSetTweetDetail, TSetToastAlert, TSetToastText, ITweetMessages, TSetCurrentUser, TGetCurrentUser } from '../components/AppRouter';
 import { db } from '../fbase';
 import TweetFactory from '../components/Home/TweetFactory';
 import Tweet from '../components/Tweet';
@@ -16,12 +16,13 @@ interface HomeProp{
     setToastAlert : TSetToastAlert;
     setToastText : TSetToastText;
     currentUser : IUsersProfile;
-    setCurrentUser : TSetCurrentUser
+    setCurrentUser : TSetCurrentUser;
+    getCurrentUser : TGetCurrentUser;
 }
 
 export type TLastTweet = boolean;
 
-const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, setUsersProfile, currentPage, setCurrentPage, setTweetDetail, setToastAlert, setToastText } : HomeProp) => {
+const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, setUsersProfile, currentPage, setCurrentPage, setTweetDetail, setToastAlert, setToastText, getCurrentUser } : HomeProp) => {
     useEffect(() => {
         window.scrollTo({top:0, behavior:'smooth'});
         setCurrentPage("home");
@@ -41,6 +42,7 @@ const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, se
         //     }];
         //     setUsersProfile(newUsersProfile);
         // }
+        getCurrentUser();
     }, [])
 
 
