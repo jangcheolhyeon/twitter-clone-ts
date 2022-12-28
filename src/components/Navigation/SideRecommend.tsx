@@ -1,5 +1,6 @@
-import React from 'react';
-import { IUserObj, IUsersProfile, IUsersProfiles } from '../AppRouter';
+import arrayShuffle from 'array-shuffle';
+import React, { useEffect, useState } from 'react';
+import { IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage } from '../AppRouter';
 import RecommendFriend from './RecommendFriend';
 
 
@@ -7,10 +8,43 @@ interface SideRecommendProp{
     userObj : IUserObj;
     usersProfile : IUsersProfiles;
     currentUser : IUsersProfile;
+    currentPage : TCurrentPage;
 }
 
 
-const SideRecommend = ({ usersProfile, userObj, currentUser } : SideRecommendProp) => {
+const SideRecommend = ({ usersProfile, userObj, currentUser, currentPage } : SideRecommendProp) => {
+    const [randomUsersProfile, setRandomUsersProfile] = useState<IUsersProfiles>([]);
+
+
+    const shuffleArray = (usersProfile : IUsersProfiles, number : number) => {
+        console.log("shuffleArray");
+        let newShuffledArray = [];
+        
+        for(let i=0;i<usersProfile.length;i++){
+            newShuffledArray[i] = i;
+        }
+        
+        return (arrayShuffle(newShuffledArray).slice(0, number));
+    }
+
+
+    useEffect(() => {
+        const randomNumberArray = shuffleArray(usersProfile, 3);
+        
+        const filteredUsersProfile = randomNumberArray.map(element => {
+            return usersProfile.filter((element) => {
+                return element.userId !== userObj?.uid;
+            })[element];
+        })
+
+        setRandomUsersProfile(filteredUsersProfile);
+    }, [currentPage])
+
+    useEffect(() => {
+        console.log(randomUsersProfile);
+    }, [randomUsersProfile])
+
+
     return(
         <div className="recommend_container">
             <div className="recommend_container_content">
@@ -19,13 +53,30 @@ const SideRecommend = ({ usersProfile, userObj, currentUser } : SideRecommendPro
                 </div>
 
                 <ul className="recommend_list">
-                    {usersProfile.filter(element => element.userId !== userObj?.uid).map((element) => {
+                    {/* {usersProfile.filter(element => element.userId !== userObj?.uid).map((element) => {
                         return(
                             <RecommendFriend 
                                 key={element.userId} user={element} currentUser={currentUser} usersProfile={usersProfile} userObj={userObj} emailHoverState={false}
                             />
                         );
-                    })}
+                    })} */}
+                    <>
+                        {randomUsersProfile.length !== 0 ? (
+                            <>
+                                {randomUsersProfile.map((element) => {
+                                    return(
+                                        <RecommendFriend 
+                                            user={element} currentUser={currentUser} usersProfile={usersProfile} userObj={userObj} emailHoverState={false}
+                                        />
+                                    );
+                                })}
+                            </>
+                        ) : (
+                            <>
+                            </>
+                        )}
+
+                    </>
                 </ul>
             </div>
         </div>
