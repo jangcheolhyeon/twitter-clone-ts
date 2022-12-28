@@ -35,9 +35,7 @@ const SideRecommend = ({ usersProfile, userObj, currentUser, currentPage } : Sid
         const randomNumberArray = shuffleArray(usersProfileWithoutMe, 3);        
 
         const filteredUsersProfile = randomNumberArray.map(element => {
-            return usersProfileWithoutMe.filter((element) => {
-                return element.userId !== userObj?.uid;
-            })[element];
+            return usersProfileWithoutMe[element];
         })
 
         setRandomUsersProfile(filteredUsersProfile);
