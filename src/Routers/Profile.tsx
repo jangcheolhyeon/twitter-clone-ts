@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
-import { ITweetMessages, IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TGetCurrentUser, TRefreshUserObj, TSetCurrentPage, TSetToastAlert, TSetToastText, TSetTweetDetail, TSetUserObj, TSetUsersProfile } from '../components/AppRouter';
+import { ITweetMessages, IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TGetCurrentUser, TRandomUsersProfiles, TRefreshUserObj, TSetCurrentPage, TSetToastAlert, TSetToastText, TSetTweetDetail, TSetUsersProfile } from '../components/AppRouter';
 import UpdateUserProfile from '../components/Profile/UpdateUserProfile';
 import UserHistoryInProfile from '../components/Profile/UserHistoryInProfile';
 
@@ -9,7 +9,6 @@ import UserHistoryInProfile from '../components/Profile/UserHistoryInProfile';
 interface ProfileProp{
     messages : ITweetMessages;
     userObj : IUserObj;
-    setUserObj : TSetUserObj;
     currentPage : TCurrentPage;
     refreshUserObj : TRefreshUserObj;
     usersProfile : IUsersProfiles;
@@ -20,6 +19,7 @@ interface ProfileProp{
     setUsersProfile : TSetUsersProfile;
     currentUser : IUsersProfile;
     getCurrentUser : TGetCurrentUser;
+    randomUsersProfile : TRandomUsersProfiles;
 }
 
 export type TMyTweetList = ITweetMessages | [] | null;
@@ -31,7 +31,7 @@ export type TSetUserBackgroundAttachment = React.Dispatch<React.SetStateAction<T
 export type TSetChangedUserBackgroundAttachment = React.Dispatch<React.SetStateAction<string | undefined>>;
 
 
-const Profile = ({ userObj, setUserObj, messages, currentUser, currentPage, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile, setTweetDetail, getCurrentUser } : ProfileProp) => {
+const Profile = ({ userObj, messages, currentUser, currentPage, refreshUserObj, usersProfile, setCurrentPage, setToastAlert, setToastText, setUsersProfile, setTweetDetail, getCurrentUser, randomUsersProfile } : ProfileProp) => {
     const [newDisplayName, setNewDisplayName] = useState<TNewDisplayName>(userObj?.displayName);
     const [userBackgroundAttachment, setUserBackgroundAttachment] = useState<TUserBackgroundAttachment>();
     const [changedUserBackgroundAttachment, setChangedUserBackgroundAttachment] = useState<string | undefined >();
@@ -158,7 +158,8 @@ const Profile = ({ userObj, setUserObj, messages, currentUser, currentPage, refr
                             setTweetDetail={setTweetDetail}
                             tweets={tweets}             
                             messages={messages}  
-                            currentUser={currentUser}         
+                            currentUser={currentUser}   
+                            randomUsersProfile={randomUsersProfile}      
                         />
 
                     </div>

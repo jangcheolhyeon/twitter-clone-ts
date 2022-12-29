@@ -11,6 +11,8 @@ import Auth from '../Routers/Auth';
 import Profile from '../Routers/Profile';
 import Details from '../Routers/Details';
 import SideRecommend from './Navigation/SideRecommend';
+import arrayShuffle from 'array-shuffle';
+
 
 
 interface IUserObjData {
@@ -85,6 +87,7 @@ export type TRefreshUserObj = () => void;
 // export type TSetCurrentUser = React.Dispatch<React.SetStateAction<IUsersProfile | undefined>>;
 export type TSetCurrentUser = React.Dispatch<React.SetStateAction<IUsersProfile | undefined>>
 export type TGetCurrentUser = () => void;
+export type TRandomUsersProfiles = IUsersProfiles;
 
 
 
@@ -99,6 +102,7 @@ const AppRouter = () => {
     const [toastText, setToastText] = useState<string>('');
     const [messages, setMessages] = useState<ITweetMessages>([]);
     const [currentUser, setCurrentUser] = useState<IUsersProfile>();
+    const [randomUsersProfile, setRandomUsersProfile] = useState<IUsersProfiles>([]);
     const isInitialMount = useRef<boolean>(true);
 
     useEffect(() => {
@@ -167,16 +171,14 @@ const AppRouter = () => {
 
     useEffect(() => {
         if(isInitialMount.current){
-            console.log("firstRender")
             isInitialMount.current = false;
             if(currentPage === 'profile'){
                 setCurrentUser(usersProfile?.filter(element => element.userId === userObj?.uid)[0])
             }
         } else{
-            console.log("not first render");
             setCurrentUser(usersProfile?.filter(element => element.userId === userObj?.uid)[0]);
         }
-        
+
     }, [usersProfile])
 
 
@@ -216,6 +218,32 @@ const AppRouter = () => {
         })
     }
 
+    const shuffleArray = (usersProfile : IUsersProfiles, number : number) => {
+        let newShuffledArray = [];
+        
+        for(let i=0;i<usersProfile.length;i++){
+            newShuffledArray[i] = i;
+        }
+        
+        return (arrayShuffle(newShuffledArray).slice(0, number));
+    }
+
+    useEffect(() => {
+        if(usersProfile){
+            const usersProfileWithoutMe : IUsersProfiles = usersProfile.filter((element) => {
+                return element.userId !== userObj?.uid;
+            });
+    
+            const randomNumberArray = shuffleArray(usersProfileWithoutMe, 3);        
+    
+            const filteredUsersProfile = randomNumberArray.map(element => {
+                return usersProfileWithoutMe[element];
+            })
+    
+            setRandomUsersProfile(filteredUsersProfile);
+        }
+    }, [currentPage])
+
     const refreshUserObj = () => {
         setUserObj(getAuth().currentUser);
     }
@@ -248,6 +276,7 @@ const AppRouter = () => {
         }        
     }
 
+
     return(
         <>
             <Router>
@@ -267,7 +296,7 @@ const AppRouter = () => {
                                     <>
                                         <Route path='/' element={<Home userObj={userObj} currentUser={currentUser as IUsersProfile} getCurrentUser={getCurrentUser} setCurrentUser={setCurrentUser} messages={messages} usersProfile={usersProfile} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} />} />
                                         
-                                        <Route path='/profile' element={<Profile messages={messages} currentUser={currentUser as IUsersProfile} refreshUserObj={refreshUserObj} userObj={userObj} setUserObj={setUserObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} getCurrentUser={getCurrentUser}/>} />
+                                        <Route path='/profile' element={<Profile messages={messages} currentUser={currentUser as IUsersProfile} refreshUserObj={refreshUserObj} userObj={userObj} usersProfile={usersProfile} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} getCurrentUser={getCurrentUser} randomUsersProfile={randomUsersProfile} />} />
                                         
                                         <Route path='/details' element={<Details messages={messages} currentUser={currentUser as IUsersProfile} tweetDetail={tweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} usersProfile={usersProfile} setUsersProfile={setUsersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText}/>} />
                                         
@@ -277,7 +306,7 @@ const AppRouter = () => {
                                     <Route path='/' element={<Auth />} />
                                 )}
                             </Routes>
-                        {isLoggedIn && <SideRecommend usersProfile={usersProfile} userObj={userObj} currentUser={currentUser as IUsersProfile} currentPage={currentPage}/>}
+                        {isLoggedIn && <SideRecommend usersProfile={usersProfile} userObj={userObj} currentUser={currentUser as IUsersProfile} randomUsersProfile={randomUsersProfile}/>}
                     </>
                 ) : (
                     <span className='loading_page'>LOADING...</span>

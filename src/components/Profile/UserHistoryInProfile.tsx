@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TMyTweetList } from '../../Routers/Profile';
-import { ITweetMessages, IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TSetCurrentPage, TSetToastAlert, TSetToastText, TSetTweetDetail, TSetUsersProfile } from '../AppRouter';
+import { ITweetMessages, IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TRandomUsersProfiles, TSetCurrentPage, TSetToastAlert, TSetToastText, TSetTweetDetail, TSetUsersProfile } from '../AppRouter';
 import ShowLikeTweetInProfile from './ShowLikeTweetInProfile';
 import ShowMediaInProfile from './ShowMediaInProfile';
 import ShowMyTweetInProfile from './ShowMyTweetInProfile';
@@ -19,6 +19,7 @@ interface UserHistoryInProfileProp{
     tweets : ITweetMessages;
     messages : ITweetMessages;
     currentUser : IUsersProfile;
+    randomUsersProfile : TRandomUsersProfiles;
 }
   
 interface TCurrentNavi{
@@ -28,7 +29,7 @@ interface TCurrentNavi{
     Likes : boolean;
 }
 
-const UserHistoryInProfile = ({ usersProfile, currentUser, messages, userObj, myTweetList, setToastAlert, setToastText, setUsersProfile, currentPage, setCurrentPage, setTweetDetail, tweets } : UserHistoryInProfileProp) => {
+const UserHistoryInProfile = ({ usersProfile, currentUser, messages, userObj, myTweetList, setToastAlert, setToastText, setUsersProfile, currentPage, setCurrentPage, setTweetDetail, tweets, randomUsersProfile } : UserHistoryInProfileProp) => {
     const [currentNavi, setCurrentNavi] = useState<TCurrentNavi>({
         Tweets : true,
         TweetsReplies : false,
@@ -80,8 +81,8 @@ const UserHistoryInProfile = ({ usersProfile, currentUser, messages, userObj, my
             </div>
             
 
-            {currentNavi.Tweets && <ShowMyTweetInProfile usersProfile={usersProfile} currentUser={currentUser} messages={messages} userObj={userObj} myTweetList={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} />}
-            {currentNavi.TweetsReplies && <ShowMyTweetsNRepliesInProfile usersProfile={usersProfile} currentUser={currentUser} userObj={userObj} messages={messages} myTweetList={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} />}
+            {currentNavi.Tweets && <ShowMyTweetInProfile usersProfile={usersProfile} currentUser={currentUser} messages={messages} userObj={userObj} myTweetList={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} randomUsersProfile={randomUsersProfile} />}
+            {currentNavi.TweetsReplies && <ShowMyTweetsNRepliesInProfile usersProfile={usersProfile} currentUser={currentUser} userObj={userObj} messages={messages} myTweetList={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} setUsersProfile={setUsersProfile} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} randomUsersProfile={randomUsersProfile} />}
             {currentNavi.Media && <ShowMediaInProfile usersProfile={usersProfile} setUsersProfile={setUsersProfile} currentUser={currentUser} messages={messages} userObj={userObj} myTweetList={myTweetList} setToastAlert={setToastAlert} setToastText={setToastText} currentPage={currentPage} setCurrentPage={setCurrentPage} setTweetDetail={setTweetDetail} />}
             {currentNavi.Likes && <ShowLikeTweetInProfile userObj={userObj} currentUser={currentUser} tweets={tweets} messages={messages} usersProfile={usersProfile} setUsersProfile={setUsersProfile} setToastAlert={setToastAlert} setToastText={setToastText} currentPage={currentPage} />}
         </>

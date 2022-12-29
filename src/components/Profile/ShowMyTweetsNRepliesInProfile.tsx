@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { TMyTweetList } from '../../Routers/Profile';
 import { faUser, faEllipsis, faUserPlus, faCommentDots } from "@fortawesome/free-solid-svg-icons";
-import { ITweetMessages, IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TSetCurrentPage, TSetToastAlert, TSetToastText, TSetTweetDetail, TSetUsersProfile } from '../AppRouter';
+import { ITweetMessages, IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TRandomUsersProfiles, TSetCurrentPage, TSetToastAlert, TSetToastText, TSetTweetDetail, TSetUsersProfile } from '../AppRouter';
 import Tweet from '../Tweet';
 import RecommendFriend from '../Navigation/RecommendFriend';
 
@@ -20,10 +20,11 @@ interface ShowMyTweetsNRepliesInProfileProp{
     setTweetDetail : TSetTweetDetail;
     messages : ITweetMessages;
     currentUser : IUsersProfile;
+    randomUsersProfile : TRandomUsersProfiles;
 }
 
 
-const ShowMyTweetsNRepliesInProfile = ({ userObj, usersProfile, currentUser, setUsersProfile, messages, myTweetList, setToastAlert, setToastText, currentPage, setCurrentPage, setTweetDetail } : ShowMyTweetsNRepliesInProfileProp ) => {
+const ShowMyTweetsNRepliesInProfile = ({ userObj, usersProfile, currentUser, setUsersProfile, messages, myTweetList, setToastAlert, setToastText, currentPage, setCurrentPage, setTweetDetail, randomUsersProfile } : ShowMyTweetsNRepliesInProfileProp ) => {
     return(
         <>
             {myTweetList !== null && myTweetList.length === 0 || myTweetList === null ? (
@@ -71,7 +72,7 @@ const ShowMyTweetsNRepliesInProfile = ({ userObj, usersProfile, currentUser, set
                     
                     <div className="recommend_list_container">
                         <ul className="recommend_list">
-                            {usersProfile.filter(element => element.userId !== userObj?.uid).map((element) => {
+                            {randomUsersProfile.filter(element => element.userId !== userObj?.uid).map((element) => {
                                 return(
                                     <>
                                         <RecommendFriend

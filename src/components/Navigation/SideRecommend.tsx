@@ -1,6 +1,6 @@
 import arrayShuffle from 'array-shuffle';
 import React, { useEffect, useState } from 'react';
-import { IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage } from '../AppRouter';
+import { IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TRandomUsersProfiles } from '../AppRouter';
 import RecommendFriend from './RecommendFriend';
 
 
@@ -8,38 +8,38 @@ interface SideRecommendProp{
     userObj : IUserObj;
     usersProfile : IUsersProfiles;
     currentUser : IUsersProfile;
-    currentPage : TCurrentPage;
+    randomUsersProfile : TRandomUsersProfiles;
 }
 
 
-const SideRecommend = ({ usersProfile, userObj, currentUser, currentPage } : SideRecommendProp) => {
-    const [randomUsersProfile, setRandomUsersProfile] = useState<IUsersProfiles>([]);
+const SideRecommend = ({ usersProfile, userObj, currentUser, randomUsersProfile } : SideRecommendProp) => {
+    // const [randomUsersProfile, setRandomUsersProfile] = useState<IUsersProfiles>([]);
 
 
-    const shuffleArray = (usersProfile : IUsersProfiles, number : number) => {
-        let newShuffledArray = [];
+    // const shuffleArray = (usersProfile : IUsersProfiles, number : number) => {
+    //     let newShuffledArray = [];
         
-        for(let i=0;i<usersProfile.length;i++){
-            newShuffledArray[i] = i;
-        }
+    //     for(let i=0;i<usersProfile.length;i++){
+    //         newShuffledArray[i] = i;
+    //     }
         
-        return (arrayShuffle(newShuffledArray).slice(0, number));
-    }
+    //     return (arrayShuffle(newShuffledArray).slice(0, number));
+    // }
 
 
-    useEffect(() => {
-        const usersProfileWithoutMe : IUsersProfiles = usersProfile.filter((element) => {
-            return element.userId !== userObj?.uid;
-        });
+    // useEffect(() => {
+    //     const usersProfileWithoutMe : IUsersProfiles = usersProfile.filter((element) => {
+    //         return element.userId !== userObj?.uid;
+    //     });
 
-        const randomNumberArray = shuffleArray(usersProfileWithoutMe, 3);        
+    //     const randomNumberArray = shuffleArray(usersProfileWithoutMe, 3);        
 
-        const filteredUsersProfile = randomNumberArray.map(element => {
-            return usersProfileWithoutMe[element];
-        })
+    //     const filteredUsersProfile = randomNumberArray.map(element => {
+    //         return usersProfileWithoutMe[element];
+    //     })
 
-        setRandomUsersProfile(filteredUsersProfile);
-    }, [currentPage])
+    //     setRandomUsersProfile(filteredUsersProfile);
+    // }, [currentPage])
 
 
     return(
