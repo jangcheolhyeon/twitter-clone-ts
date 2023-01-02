@@ -7,8 +7,6 @@ import DeleteConfirmModal from "./DeleteConfirmModal";
 import { db, storageService } from "../../fbase";
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
-import { isUndefined } from "util";
-
 
 interface DeleteTweetProp{
     tictoc : ITweetMessage;
@@ -41,7 +39,7 @@ const DeleteTweet = ({ tictoc, setToastAlert, setToastText, setCurrentPage } : D
         setToastAlert(true);
         setToastText('Your Tweet was Deleted');
 
-        window.scrollTo({top:0, behavior:'smooth'});
+        // window.scrollTo({top:0, behavior:'smooth'});
         if(setCurrentPage !== undefined){
             setCurrentPage("home");
             navi('/');

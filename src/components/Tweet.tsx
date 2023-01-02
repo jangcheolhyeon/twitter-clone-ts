@@ -60,7 +60,7 @@ const Tweet = ({ tictoc, messages, currentUser, isOwner, userObj, usersProfile, 
     const [userImgHover, setUserImgHover] = useState<boolean>(false);
 
     useEffect(() => {
-        window.scrollTo({top:0, behavior:'smooth'});
+        // window.scrollTo({top:0, behavior:'smooth'});
         usersProfile.map(element => {
             if(element.userId === tictoc.userId){
                 setUserName(element.displayName);
@@ -247,71 +247,6 @@ const Tweet = ({ tictoc, messages, currentUser, isOwner, userObj, usersProfile, 
                 </div>
                 </>
             )}
-            {/*
-            {replyModalOpen && <ReplyingModal userObj={userObj} onReplyModalToggle={onReplyModalToggle} parentTweet={tictoc} usersProfile={usersProfile} setReplyModalOpen={setReplyModalOpen} />}
-            {retweetModalOpen && <RetweetingModal userObj={userObj} onRetweetModalToggle={onRetweetModalToggle} retweetContent={tictoc} usersProfile={usersProfile} setRetweetModalOpen={setRetweetModalOpen} />}
-            <div className={(currentPage === 'home' || currentPage === 'profile') && emailHover === false && userImgHover === false ? 'tweet tweet_home' : 'tweet'} onClick={currentPage === "home" || currentPage === "profile" ? onTweetClick : undefined}>
-                
-                {currentPage && 
-                    <UserImg tictoc={tictoc} currentPage={currentPage} currentUser={currentUser} userImgHover={userImgHover} userPhoto={userPhoto} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} setUserInfoHover={setUserImgHover} lastTweet={lastTweet}/>
-                }
-
-                <div className="tweet_content">
-                    {isOwner && <div className="close_tweet">
-                        <DeleteTweet tictoc={tictoc} setToastAlert={setToastAlert} setToastText={setToastText} setCurrentPage={setCurrentPage} />
-
-                        {Boolean(currentUser.pin.length) && currentUser.pin === tictoc.id && <>
-                            <div className="tweet_pin">
-                                <FontAwesomeIcon icon={faThumbtack} />
-                                <span>Pinned Tweet</span>
-                            </div>
-                        </>}
-                    </div>}
-
-                    <div className={isOwner ? 'tweet_userInfo_container' : 'tweet_userInfo_container isNotOwner'}>
-                        <div className="tweet_more_container">
-                            <TweetThreeDots isOwner={isOwner} currentUser={currentUser} tictoc={tictoc} />
-                        </div>
-
-                        <span className="user_name">{userName}</span>
-                        <span className="enroll_date">{enrollDate}</span>
-                    </div>
-
-                    <div className="user_tweet_content">
-                        <ReplyTweetInTweetList tictoc={tictoc} emailHover={emailHover} currentUser={currentUser} setEmailHover={setEmailHover} userObj={userObj} usersProfile={usersProfile} setUsersProfile={setUsersProfile} lastTweet={lastTweet} />
-                    </div>
-
-                    {tictoc.attachmentUrl && 
-                        <div className="user_tweet_image_container">
-                            <img src={tictoc.attachmentUrl} alt="writer img" />
-                        </div>
-                    }
-
-                    {tictoc.retweet &&  
-                        <RetweetTweetInTweetList currentPage={currentPage} onTweetClick={onTweetClick} tictoc={tictoc} usersProfile={usersProfile} />
-                    }
-
-                    <div className="action_container">
-
-
-                        <TweetActions 
-                            tictoc={tictoc} 
-                            userObj={userObj} 
-                            onReplyModalToggle={onReplyModalToggle} 
-                            retweetHover={retweetHover} 
-                            setRetweetHover={setRetweetHover} 
-                            retweetActive={retweetActive} 
-                            setRetweetActive={setRetweetActive} 
-                            setToastAlert={setToastAlert}
-                            setToastText={setToastText}
-                            onRetweetModalToggle={onRetweetModalToggle}
-                            messages={messages}
-                        />
-
-                    </div>
-                </div>
-            </div>
-            */}
         </>
     );
 }
