@@ -681,9 +681,12 @@ nav{
 /* profile */
 
 .container > .background_container{
+  box-sizing: border-box;
   width:100%;
   height:300px;
   background-color: rgb(49, 52, 55);
+  border-right: 0.1px solid lightslategray;
+  border-left: 0.1px solid lightslategray;
 }
 
 .container > .background_container > img{
@@ -694,6 +697,9 @@ nav{
 .container > .my_profile_container{
   position: relative;
   height:80px;
+  box-sizing: border-box;
+  border-right: 0.1px solid lightslategray;
+  border-left: 0.1px solid lightslategray;
 }
 
 .container > .my_profile_container > .my_profile_container_top{
@@ -744,7 +750,11 @@ nav{
   display: flex;
   flex-direction: column;
   padding:0 20px;
-  margin-bottom:20px;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+  border-bottom:0.1px solid lightslategray;
+  border-right: 0.1px solid lightslategray;
+  border-left: 0.1px solid lightslategray;
 }
 
 .container > .my_profile_info_container > .user_name{
@@ -781,6 +791,9 @@ nav{
   display: flex;
   height:100px;
   border-bottom:0.1px solid lightslategray;
+  box-sizing: border-box;
+  border-right: 0.1px solid lightslategray;
+  border-left: 0.1px solid lightslategray;
 }
 
 .container > .my_trace_navi > .tweets:hover, .tweets_replies:hover, .media:hover, .likes:hover{
@@ -839,6 +852,9 @@ nav{
 .container > .my_trace_content{
   border-bottom:0.1px solid lightslategray;
   padding:10px 20px;
+  box-sizing: border-box;
+  border-right: 0.1px solid lightslategray;
+  border-left: 0.1px solid lightslategray;
 }
 
 .container > .my_trace_content > .my_trace_content_top{
@@ -904,6 +920,9 @@ nav{
 .container > .profile_follow_recommend{
   padding: 10px 20px;
   border-bottom : 0.1px solid lightslategray;
+  box-sizing: border-box;
+  border-right: 0.1px solid lightslategray;
+  border-left: 0.1px solid lightslategray;
 }
 
 .container > .profile_follow_recommend > span{
@@ -920,6 +939,10 @@ nav{
   flex-direction: column;
   align-items: center;
   padding:100px 130px;
+  box-sizing: border-box;
+  border-right: 0.1px solid lightslategray;
+  border-left: 0.1px solid lightslategray;
+  border-bottom: 0.1px solid lightslategray;
 }
 
 .media_container > .media_content_img > svg{
@@ -945,6 +968,10 @@ nav{
 
 .like_container {
   padding:50px 130px;
+  box-sizing: border-box;
+  border-right: 0.1px solid lightslategray;
+  border-left: 0.1px solid lightslategray;
+  border-bottom:0.1px solid lightslategray;
 }
 
 .like_container > .like_container_content {
