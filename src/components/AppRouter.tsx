@@ -1,5 +1,5 @@
 import React,{ useEffect, useRef, useState } from 'react';
-import { addDoc, collection, onSnapshot, orderBy, query, QuerySnapshot } from 'firebase/firestore';
+import { addDoc, collection, getDoc, getDocs, limit, onSnapshot, orderBy, query, QuerySnapshot, startAfter } from 'firebase/firestore';
 import { db } from '../fbase';
 import { getAuth, onAuthStateChanged, updateProfile, User } from 'firebase/auth';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
@@ -84,7 +84,6 @@ export type TSetToastAlert = React.Dispatch<React.SetStateAction<boolean>>;
 export type TToastText = string;
 export type TSetToastText = React.Dispatch<React.SetStateAction<string>>;
 export type TRefreshUserObj = () => void;
-// export type TSetCurrentUser = React.Dispatch<React.SetStateAction<IUsersProfile | undefined>>;
 export type TSetCurrentUser = React.Dispatch<React.SetStateAction<IUsersProfile | undefined>>
 export type TGetCurrentUser = () => void;
 export type TRandomUsersProfiles = IUsersProfiles;
@@ -119,19 +118,6 @@ const AppRouter = () => {
     }, [])
 
     useEffect(() => {
-        // const q = query(collection(db, 'usersInfo'));
-        // onSnapshot(q, (snapshot) => {
-        //     const newUsersInfo : any = snapshot.docs.map((doc) => {
-        //         return {
-        //             id : doc.id,
-        //             ...doc.data()
-        //         }
-        //     });
-            
-        //     setUsersProfile(newUsersInfo);
-        // });
-
-        // setCurrentUser(usersProfile?.filter(element => element.userId === userObj?.uid)[0]);
         getCurrentUser();
     }, [])
 
@@ -157,16 +143,6 @@ const AppRouter = () => {
                 setInit(true);
             }
         })
-
-        // const q = query<IUsersProfile>(
-        //     // @ts-ignore
-        //     collection(db, 'usersInfo')
-        // );
-        // onSnapshot<IUsersProfile>(q, (snapshot: QuerySnapshot<IUsersProfile>) => {
-        //     const newUsersInfo : IUsersProfiles  = snapshot.docs.map((doc) => doc.data());
-
-        //     setUsersProfile(newUsersInfo);
-        // })
     }, []);
 
     useEffect(() => {
@@ -242,7 +218,7 @@ const AppRouter = () => {
     
             setRandomUsersProfile(filteredUsersProfile);
         }
-    }, [currentPage])
+    }, [currentPage, usersProfile])
 
     const refreshUserObj = () => {
         setUserObj(getAuth().currentUser);
@@ -280,7 +256,6 @@ const AppRouter = () => {
     return(
         <>
             <Router>
-                {/* {init ? ( */}
                 {init && usersProfile !== undefined ? (
                     
                     <>
@@ -290,7 +265,6 @@ const AppRouter = () => {
                         
                         {isLoggedIn && <TopNavi currentPage={currentPage} userObj={userObj}/>}
                         {isLoggedIn && <Navigation userObj={userObj} />}
-                        {/* currentUser, usersProfile !== undefined */}
                             <Routes>
                                 {isLoggedIn ? (
                                     <>
