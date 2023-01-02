@@ -48,7 +48,8 @@ const UserHistoryInProfile = ({ usersProfile, currentUser, messages, userObj, my
 
         switch(key){
             case 'Tweets' :
-                newCurrentNavi.Tweets = true
+                newCurrentNavi.Tweets = true;
+                window.scrollTo({top:0, behavior:'smooth'});
                 break;
             case 'TweetsReplies' :
                 newCurrentNavi.TweetsReplies = true
