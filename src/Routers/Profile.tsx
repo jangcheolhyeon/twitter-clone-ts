@@ -35,8 +35,8 @@ const Profile = ({ userObj, messages, currentUser, currentPage, refreshUserObj, 
     const [newDisplayName, setNewDisplayName] = useState<TNewDisplayName>(userObj?.displayName);
     const [userBackgroundAttachment, setUserBackgroundAttachment] = useState<TUserBackgroundAttachment>();
     const [changedUserBackgroundAttachment, setChangedUserBackgroundAttachment] = useState<string | undefined >();
-    const [myTweetList, setMyTweetList] = useState<TMyTweetList>([]); // 내가 작성한 message만 넣음
-    const [tweets, setTweets] = useState<ITweetMessages>([]); // 모든 message를 다 넣음
+    const [myTweetList, setMyTweetList] = useState<TMyTweetList>([]); 
+    const [tweets, setTweets] = useState<ITweetMessages>([]); 
     const [followersCnt, setFollowersCnt] = useState<number>(0);
     const [followingCnt, setFollowingCnt] = useState<number>(0);
 
@@ -45,23 +45,8 @@ const Profile = ({ userObj, messages, currentUser, currentPage, refreshUserObj, 
         const newMyTweetList = messages.filter(element => element.userId === userObj?.uid);
         setMyTweetList(newMyTweetList);
         setTweets(messages);
-        // if(!currentUser && usersProfile.length !== 0){
-        //     let newUsersProfile : IUsersProfiles = [...usersProfile, {
-        //         userId : userObj?.uid,
-        //         userImage : userObj?.photoURL,
-        //         displayName : userObj?.displayName,
-        //         email : userObj?.email,
-        //         pin : '',
-        //         follower:[],
-        //         following:[],
-        //         backgroundImg : null,
-        //     }];
-        //     setUsersProfile(newUsersProfile);
-        // }
         getCurrentUser();
-        
         setCurrentPage('profile');
-
     }, []);
 
     useEffect(() => {

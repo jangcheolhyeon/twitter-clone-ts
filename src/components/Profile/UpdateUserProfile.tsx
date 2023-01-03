@@ -101,17 +101,15 @@ const UpdateUserProfile = ({ userObj, usersProfile, setUsersProfile, currentUser
         event.preventDefault();
         onUpdateUserImg();
         onUpdateUserBackground();
-        // if(newDisplayName !== userObj?.displayName){
-            if(authService.currentUser !== null){
-                await updateProfile(authService.currentUser, {displayName: newDisplayName});
-                
-                await updateDoc(doc(db, 'usersInfo', `${currentUser.id}`), {
-                    displayName : userObj?.displayName
-                })
-                            
-                refreshUserObj();
-            }
-        // }
+        if(authService.currentUser !== null){
+            await updateProfile(authService.currentUser, {displayName: newDisplayName});
+            
+            await updateDoc(doc(db, 'usersInfo', `${currentUser.id}`), {
+                displayName : userObj?.displayName
+            })
+                        
+            refreshUserObj();
+        }
         setModalOpen((prev) => !prev);
     }
 

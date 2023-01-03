@@ -23,20 +23,18 @@ interface HomeProp{
 export type TLastTweet = boolean;
 
 const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, setUsersProfile, currentPage, setCurrentPage, setTweetDetail, setToastAlert, setToastText, getCurrentUser } : HomeProp) => {
-    const [data, setData] = useState<ITweetMessages>([]); // 불러온 문서들 상태
-    const [loading, setLoading] = useState<boolean>(false); // 로딩 상태 
-    const [loadingMore, setLoadingMore] = useState<boolean>(false); // 추가 요청시 로딩 상태
-    const [key, setKey] = useState<any>(null); // 마지막으로 불러온 스냅샷 상태
-    const [noMore, setNoMore] = useState<boolean>(false); // 추가로 요청할 데이터 없다는 flag
+    const [data, setData] = useState<ITweetMessages>([]);
+    const [loading, setLoading] = useState<boolean>(false); 
+    const [loadingMore, setLoadingMore] = useState<boolean>(false); 
+    const [key, setKey] = useState<any>(null);
+    const [noMore, setNoMore] = useState<boolean>(false); 
     const [target, setTarget] = useState<any>(null);
     const initTweetLength = 5;
     
-
-    // 첫번째 페이지 요청 함수
     const getFirstPage = useCallback(async () => {
       const queryRef = query(
         collection(db, 'tictoc'),
-        orderBy("bundle", "desc"), // 최신 작성순으로 정렬
+        orderBy("bundle", "desc"),
         limit(initTweetLength)
       );
       try {
@@ -48,10 +46,8 @@ const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, se
           ...doc.data(),
         }));
         
-        // 문서 저장
         setData(docsArray);
         
-        // 커서로 사용할 마지막 문서 스냅샷 저장
         setKey(snap.docs[snap.docs.length - 1]);
       } catch (err) {
         console.log(err);
@@ -59,25 +55,23 @@ const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, se
       setLoading(false);
     }, [initTweetLength]);
   
-    // 추가 요청 함수
     const loadMore = useCallback(
       async (loadCount : number) => {
         const queryRef = query(
           collection(db, 'tictoc'),
           orderBy("bundle", "desc"),
-          startAfter(key), // 마지막 커서 기준으로 추가 요청을 보내도록 쿼리 전송
+          startAfter(key), 
           limit(loadCount)
         );
         try {
           const snap : any = await getDocs(queryRef);
-          snap.empty ? setNoMore(true) // 만약 스냅샷이 존재 하지 않는다면 더이상 불러올수 없다는 flag 설정
-          : setKey(snap.docs[snap.docs.length - 1]); // 존재한다면 처음과 마찬가지고 마지막 커서 저장
+          snap.empty ? setNoMore(true) : setKey(snap.docs[snap.docs.length - 1]);
 
           const docsArray = snap.docs.map((doc : any) => ({
             id: doc.id,
             ...doc.data(),
           }));
-          setData([...data, ...docsArray]); // 기존 데이터와 합쳐서 상태 저장
+          setData([...data, ...docsArray]); 
         } catch (err) {
           console.log(err);
         }
@@ -86,12 +80,8 @@ const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, se
     );
 
   
-    // 지정된 요소가 화면에 보일때 실행할 콜백함수
     const onIntersect = useCallback(
       async ([entry] : any, observer : any) => {
-       // 만약에 지정한 요소가 화면에 보이거나 현재 데이터를 더 불러오는 상황이 아닐경우,
-       // 기존 요소의 주시를 해체하고 추가로 3개의 문서를 더 불러오도록 설정
-      
         if (entry.isIntersecting && !loadingMore ) {
           observer.unobserve(entry.target);
           setLoadingMore(true);
@@ -102,12 +92,10 @@ const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, se
       [loadMore, loadingMore]
     );
   
-   // 처음 화면이 랜더링 되었을때 첫번째 페이지를 문서를 가져오도록 설정
     useEffect(() => {
       getFirstPage();
     }, [messages, getFirstPage]);
   
-   // target 요소의 ref가 전달되었을때 해당 요소를 주시할수 있도록 observer 인스턴스 생성후 전달
     useEffect(() => {
       let observer : any;
       if (target && !noMore) {
@@ -116,7 +104,6 @@ const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, se
         });
         observer.observe(target);
       }
-      // 메모리 해제 작업
       return () => {
         setLoading(false);
         setLoadingMore(false);
@@ -124,16 +111,11 @@ const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, se
       };
     }, [target, onIntersect, noMore]);
 
-
-  //here
     useEffect(() => {
         window.scrollTo({top:0, behavior:'smooth'});
         setCurrentPage("home");
         getCurrentUser();
     }, [])
-
-    // const { data, loading, loadingMore, noMore } : any = usePagination('tictoc', initTweetLength, target);
-    
 
     return(
         <>

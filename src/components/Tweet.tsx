@@ -60,7 +60,6 @@ const Tweet = ({ tictoc, messages, currentUser, isOwner, userObj, usersProfile, 
     const [userImgHover, setUserImgHover] = useState<boolean>(false);
 
     useEffect(() => {
-        // window.scrollTo({top:0, behavior:'smooth'});
         usersProfile.map(element => {
             if(element.userId === tictoc.userId){
                 setUserName(element.displayName);

@@ -98,9 +98,6 @@ const UserImg = ({ tictoc, currentPage, userImgHover, currentUser, userPhoto, us
                         <>
                             <FontAwesomeIcon icon={faCircleUser} className={userImgHover ? 'user_photo_image activing_user_photo_image' : 'user_photo_image'}
                                 onMouseOver={() => { setUserInfoHover(true); }} 
-                                // onMouseOut={() => { timerRef.current = setTimeout(() => {
-                                //     setUserInfoHover(false);
-                                // }, 500) }}
                             />
                         </>
                     )}

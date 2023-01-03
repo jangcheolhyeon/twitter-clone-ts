@@ -51,20 +51,14 @@ export interface ITweetMessage{
     userId : string;
     userImage : string;
 
-    // noraml tweet
     parent? : boolean;
 
-    // reply tweet
     child? : boolean;
     parentReplyInfo? : any;
     parentReplyInfoDetail? : any;
 
-    // retweet tweet
     retweet? : boolean;
     retweetParentInfo? : any;
-    // retweetAttachment? : string;
-    // retweetParent : string;
-    // retweetText : string;
 }
 
 
@@ -248,7 +242,6 @@ const AppRouter = () => {
 
     const createAccountUser = () => {
         if(userObj !== null){
-            // if(userObj.displayName === null || userObj.displayName === undefined){
             if(!userObj.displayName){
                 let newUserObj = {...userObj};
                 if(userObj.email)

@@ -29,8 +29,6 @@ const RecommendFriend = ({ user, currentUser, userObj, usersProfile, emailHoverS
     const [followingHover, setFollowingHover] = useState<TFollowingHover>(false);
     const [followState, setFollowState] = useState<TFollowState>(true);
 
-    // let currentUser : IUsersProfile | null;
-
     useEffect(() => {
         if(usersProfile === undefined || usersProfile === null || usersProfile.length === 0){
             return;
@@ -48,23 +46,13 @@ const RecommendFriend = ({ user, currentUser, userObj, usersProfile, emailHoverS
             return
         }
 
-        // const userProfile = getUserProfileById(usersProfile, userObj.uid)
-
-
-        // if(userProfile && user?.userId){
-        //     setFollowState(userProfile.follower.includes(user.userId))
-        // }
-
         if(currentUser && user?.userId){
             setFollowState(currentUser.follower.includes(user.userId))
         }
-
-        // currentUser = getUserProfileById(usersProfile, userObj.uid);
     } 
 
     const onFollowClick = async(user : IUsersProfile) => {
         setFollowState(prev => !prev);
-        // currentUser = usersProfile.filter(element => element.userId === userObj?.uid)[0];
 
         if(followState){
             await updateDoc(doc(db, "usersInfo", `${currentUser.id}`), {
@@ -117,7 +105,6 @@ const RecommendFriend = ({ user, currentUser, userObj, usersProfile, emailHoverS
                         ) : (
                             <span>{user?.email?.split('@')[0]}</span>
                         )}
-                        {/* <span>{user?.displayName}</span> */}
                     </div>
                     
                     {user && <FollowAction user={user} followState={followState} followingHover={followingHover} onFollowClick={onFollowClick} setFollowingHover={setFollowingHover} /> }

@@ -13,34 +13,6 @@ interface SideRecommendProp{
 
 
 const SideRecommend = ({ usersProfile, userObj, currentUser, randomUsersProfile } : SideRecommendProp) => {
-    // const [randomUsersProfile, setRandomUsersProfile] = useState<IUsersProfiles>([]);
-
-
-    // const shuffleArray = (usersProfile : IUsersProfiles, number : number) => {
-    //     let newShuffledArray = [];
-        
-    //     for(let i=0;i<usersProfile.length;i++){
-    //         newShuffledArray[i] = i;
-    //     }
-        
-    //     return (arrayShuffle(newShuffledArray).slice(0, number));
-    // }
-
-
-    // useEffect(() => {
-    //     const usersProfileWithoutMe : IUsersProfiles = usersProfile.filter((element) => {
-    //         return element.userId !== userObj?.uid;
-    //     });
-
-    //     const randomNumberArray = shuffleArray(usersProfileWithoutMe, 3);        
-
-    //     const filteredUsersProfile = randomNumberArray.map(element => {
-    //         return usersProfileWithoutMe[element];
-    //     })
-
-    //     setRandomUsersProfile(filteredUsersProfile);
-    // }, [currentPage])
-
 
     return(
         <div className="recommend_container">
@@ -50,13 +22,6 @@ const SideRecommend = ({ usersProfile, userObj, currentUser, randomUsersProfile 
                 </div>
 
                 <ul className="recommend_list">
-                    {/* {usersProfile.filter(element => element.userId !== userObj?.uid).map((element) => {
-                        return(
-                            <RecommendFriend 
-                                key={element.userId} user={element} currentUser={currentUser} usersProfile={usersProfile} userObj={userObj} emailHoverState={false}
-                            />
-                        );
-                    })} */}
                     <>
                         {randomUsersProfile.length !== 0 ? (
                             <>

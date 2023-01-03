@@ -79,9 +79,6 @@ const RetweetingModal = ({ userObj, onRetweetModalToggle, retweetContent, usersP
             like_users : [],
             retweet:true,
             retweetParentInfo : retweetContent,
-            // retweetParent: retweetContent.id,
-            // retweetAttachment : retweetContent.attachmentUrl,
-            // retweetText : retweetContent.text,
         }
 
         await addDoc(collection(db, 'tictoc'), tweetObj);
