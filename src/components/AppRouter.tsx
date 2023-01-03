@@ -218,7 +218,7 @@ const AppRouter = () => {
     
             setRandomUsersProfile(filteredUsersProfile);
         }
-    }, [currentPage, usersProfile])
+    }, [currentPage])
 
     const refreshUserObj = () => {
         setUserObj(getAuth().currentUser);
