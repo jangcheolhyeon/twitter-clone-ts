@@ -4,6 +4,7 @@ import { TSetUsersProfile, IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage
 import { db } from '../fbase';
 import TweetFactory from '../components/Home/TweetFactory';
 import Tweet from '../components/Tweet';
+import LoadingTweets from '../components/LoadingComponents/LoadingTweets';
 
 interface HomeProp{
     messages : ITweetMessages;
@@ -116,6 +117,7 @@ const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, se
         setCurrentPage("home");
         getCurrentUser();
     }, [])
+    console.log("data", data);
 
     return(
         <>
@@ -131,10 +133,12 @@ const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, se
                             <TweetFactory userObj={userObj} />
                         </div>
 
-                        {data === undefined || data === null ? (
-                            <div>
-                                <h1>Loading...</h1>
-                            </div>
+                        {data === undefined || data === null || data.length === 0 ? (
+                          <>
+                            <LoadingTweets />
+                            <LoadingTweets />
+                            <LoadingTweets />
+                          </>
                         ) : (
                             <>
                                 <div className='tictoc_container'>
