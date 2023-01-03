@@ -38,7 +38,7 @@ const DeleteTweet = ({ tictoc, setToastAlert, setToastText, setCurrentPage } : D
         event.stopPropagation();
         setToastAlert(true);
         setToastText('Your Tweet was Deleted');
-
+        setDeleteModal(false);
         // window.scrollTo({top:0, behavior:'smooth'});
         if(setCurrentPage !== undefined){
             setCurrentPage("home");
