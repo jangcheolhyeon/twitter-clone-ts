@@ -149,10 +149,11 @@ const AppRouter = () => {
         if(isInitialMount.current){
             isInitialMount.current = false;
             if(currentPage === 'profile'){
-                setCurrentUser(usersProfile?.filter(element => element.userId === userObj?.uid)[0])
+                setCurrentUser(usersProfile?.filter(element => element.userId === userObj?.uid)[0]);
             }
         } else{
             setCurrentUser(usersProfile?.filter(element => element.userId === userObj?.uid)[0]);
+            getRecommendFriendList()
         }
 
     }, [usersProfile])
@@ -205,6 +206,10 @@ const AppRouter = () => {
     }
 
     useEffect(() => {
+        getRecommendFriendList();
+    }, [currentPage])
+
+    const getRecommendFriendList = () => {
         if(usersProfile){
             const usersProfileWithoutMe : IUsersProfiles = usersProfile.filter((element) => {
                 return element.userId !== userObj?.uid;
@@ -218,7 +223,8 @@ const AppRouter = () => {
     
             setRandomUsersProfile(filteredUsersProfile);
         }
-    }, [currentPage])
+    }
+
 
     const refreshUserObj = () => {
         setUserObj(getAuth().currentUser);
