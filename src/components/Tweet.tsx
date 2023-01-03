@@ -73,16 +73,12 @@ const Tweet = ({ tictoc, messages, currentUser, isOwner, userObj, usersProfile, 
     }, []);
 
     useEffect(() => {
-        
         usersProfile.map(element => {
             if(element.userId === tictoc.userId){
                 setUserName(element.displayName);
                 setUserPhoto(element.userImage);
             } 
         });
-
-        
-
     }, [usersProfile, currentPage])
 
     const onReplyModalToggle = (event : React.MouseEvent<HTMLDivElement>) => {
@@ -176,8 +172,6 @@ const Tweet = ({ tictoc, messages, currentUser, isOwner, userObj, usersProfile, 
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </>
             ) : (
