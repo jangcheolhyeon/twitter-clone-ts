@@ -4,7 +4,6 @@ import { TSetUsersProfile, IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage
 import { db } from '../fbase';
 import TweetFactory from '../components/Home/TweetFactory';
 import Tweet from '../components/Tweet';
-import usePagination from '../components/hooks/usePagination';
 
 interface HomeProp{
     messages : ITweetMessages;
