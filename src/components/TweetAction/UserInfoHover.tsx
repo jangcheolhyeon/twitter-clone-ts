@@ -57,8 +57,8 @@ const UserInfoHover = ({ userInfo, userObj, currentUser, usersProfile, timerRef,
                     </div>
 
                     <div className="user_info_hover_bottom_container">
-                        <span>{userInfo?.following.length}<span className="user_info_hover_container_gray_text">Following</span></span>
-                        <span className="second_text">{userInfo?.follower.length}<span className="user_info_hover_container_gray_text">Followers</span></span>
+                        <span>{userInfo?.follower.length}<span className="user_info_hover_container_gray_text">Following</span></span>
+                        <span className="second_text">{userInfo?.following.length}<span className="user_info_hover_container_gray_text">Followers</span></span>
                     </div>
 
                 </div>
