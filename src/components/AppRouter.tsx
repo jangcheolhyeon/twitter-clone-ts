@@ -82,7 +82,6 @@ export type TSetCurrentUser = React.Dispatch<React.SetStateAction<IUsersProfile 
 export type TGetCurrentUser = () => void;
 export type TRandomUsersProfiles = IUsersProfiles;
 export type TGetRecommendFriendList = (usersProfile : IUsersProfiles, number : number, setState : React.Dispatch<React.SetStateAction<IUsersProfiles>>) => void;
-// export type TGetRecommendFriendList = any; 
 
 
 const AppRouter = () => {
@@ -195,7 +194,6 @@ const AppRouter = () => {
         for(let i=0;i<usersProfile.length;i++){
             newShuffledArray[i] = i;
         }
-        console.log(arrayShuffle(newShuffledArray).slice(0, number));
         return (arrayShuffle(newShuffledArray).slice(0, number));
     }
 

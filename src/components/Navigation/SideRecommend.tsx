@@ -14,11 +14,8 @@ interface SideRecommendProp{
 
 const SideRecommend = ({ usersProfile, userObj, currentUser, randomUsersProfile, getRecommendFriendList } : SideRecommendProp) => {
     const [threeFriendsInUsersProfile, setThreeFriendsInUsersProfile] = useState<IUsersProfiles>([]);
-    
 
     useEffect(() => {
-        console.log("usersProfile", usersProfile);
-        console.log("randomUsersProfile", randomUsersProfile);
         getRecommendFriendList(usersProfile, 3, setThreeFriendsInUsersProfile);
     }, [])
 
