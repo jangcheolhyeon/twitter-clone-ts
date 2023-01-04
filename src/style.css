@@ -1,5 +1,6 @@
 html {
   box-sizing:border-box;
+  height: 100vh;
 }
 
 li{
@@ -1828,9 +1829,10 @@ nav{
   color:#04AAFF;
   border:none;
   width:auto;
-  margin:5px;
+  margin: 0 auto;
   padding:0;
   border-bottom:1px solid black;
+  display:block;
 }
 
 .authSwitch:hover{
@@ -2057,4 +2059,10 @@ nav{
   color:#04AAFF;
   text-align: center;
   font-size: 18px;
+}
+
+.login_fail_text{
+  color:red;
+  font-size: 17px;
+  display: block;
 }

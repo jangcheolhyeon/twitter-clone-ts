@@ -12,6 +12,7 @@ const AuthForm = () => {
     const [createEmail, setCreateEmail] = useState<string>('');
     const [createPassword, setCreatePassword] = useState<string>('');
     const [createAccountModal, setCreateAccountModal] = useState<boolean>(false);
+    const [loginFail, setLoginFail] = useState<boolean>(false);
 
 
     const onChange = (event : React.ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +43,7 @@ const AuthForm = () => {
 
         } catch(error){
             console.log(error);
+            setLoginFail(true);
         }
     }
 
@@ -64,6 +66,7 @@ const AuthForm = () => {
                 <input type="submit" value="login" className="authSubmit" />
             </form>
             <input type="button" value="sign up" className="authSwitch" onClick={onCraeteAccountModal}/>
+            {loginFail && <span className='login_fail_text'>Login Failed</span>}
 
             {createAccountModal && (
                 <>
