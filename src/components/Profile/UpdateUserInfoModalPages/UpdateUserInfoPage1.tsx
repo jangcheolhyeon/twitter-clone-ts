@@ -55,8 +55,8 @@ const UpdateUserInfoPage1 = ({ setModalOpen, userAttachment, cameraHover, setCam
                 </div>
             </div>
 
-            <div className="modal_update_skip_btn">
-                <button onClick={() => { setCurrentPageIndex('page2') }}>Next</button>
+            <div className="modal_update_skip_btn" onClick={() => { setCurrentPageIndex('page2') }}>
+                <button>Next</button>
             </div>
         </>
     );

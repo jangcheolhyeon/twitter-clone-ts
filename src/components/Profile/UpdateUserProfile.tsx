@@ -26,7 +26,7 @@ export type TUserAttachment = string | null | undefined;
 export type TOnUserAttachment = (event : React.ChangeEvent<HTMLInputElement>) => void;
 export type TOnUserBackgroundAttachment = (event: React.ChangeEvent<HTMLInputElement>) => void;
 export type TOnChangeDisplayName = (event : React.ChangeEvent<HTMLInputElement>) => void;
-export type TOnChangeUserProfile = (event : React.MouseEvent<HTMLButtonElement>) => void;
+export type TOnChangeUserProfile = (event : React.MouseEvent<HTMLElement>) => void;
 export type TSetModalOpen = React.Dispatch<React.SetStateAction<boolean>>;
 
 
@@ -97,7 +97,7 @@ const UpdateUserProfile = ({ userObj, usersProfile, setUsersProfile, currentUser
 
 
     
-    const onChangeUserProfile = async(event : React.MouseEvent<HTMLButtonElement>) => {
+    const onChangeUserProfile = async(event : React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
         onUpdateUserImg();
         onUpdateUserBackground();

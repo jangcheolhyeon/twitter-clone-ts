@@ -87,8 +87,8 @@ const Navigation = ({ userObj }: NavigationProp) => {
 
                     <div className="current_user_info_container" onClick={userInfoClicked} ref={userInfoRef}>
                         {logoutClicked && (
-                            <div className="user_info_click">
-                                <span onClick={onLogout}>Logout</span>
+                            <div className="user_info_click" onClick={onLogout}>
+                                <span>Logout</span>
                             </div>
                         )}
                         <FontAwesomeIcon icon={faCircleUser} color={iconColor} size={iconSize} />

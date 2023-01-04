@@ -53,8 +53,8 @@ const UpdateUserInfoPage2 = ({ setCurrentPageIndex, userBackgroundAttachment, se
                 </div>
             </div>
 
-            <div className="modal_update_skip_btn">
-                <button onClick={() => { setCurrentPageIndex('page3') }}>Next</button>
+            <div className="modal_update_skip_btn" onClick={() => { setCurrentPageIndex('page3') }}>
+                <button>Next</button>
             </div>
         </>
     );

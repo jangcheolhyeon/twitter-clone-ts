@@ -36,8 +36,8 @@ const UpdateUserInfoPage3 = ({ setCurrentPageIndex, newDisplayName, onChangeDisp
                     <input type="text" placeholder="Display Name" value={newDisplayName} onChange={onChangeDisplayName} />
                 )}
             </div>
-            <div className="modal_update_skip_btn">
-                <button onClick={onChangeUserProfile}>SAVE</button>
+            <div className="modal_update_skip_btn" onClick={onChangeUserProfile}>
+                <button>SAVE</button>
             </div>
         </>
     );
