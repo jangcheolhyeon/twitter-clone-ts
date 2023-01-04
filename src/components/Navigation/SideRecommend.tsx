@@ -1,6 +1,5 @@
-import arrayShuffle from 'array-shuffle';
 import React, { useEffect, useState } from 'react';
-import { IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TRandomUsersProfiles } from '../AppRouter';
+import { IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TGetRecommendFriendList, TRandomUsersProfiles,  } from '../AppRouter';
 import RecommendFriend from './RecommendFriend';
 
 
@@ -9,10 +8,19 @@ interface SideRecommendProp{
     usersProfile : IUsersProfiles;
     currentUser : IUsersProfile;
     randomUsersProfile : TRandomUsersProfiles;
+    getRecommendFriendList : TGetRecommendFriendList;
 }
 
 
-const SideRecommend = ({ usersProfile, userObj, currentUser, randomUsersProfile } : SideRecommendProp) => {
+const SideRecommend = ({ usersProfile, userObj, currentUser, randomUsersProfile, getRecommendFriendList } : SideRecommendProp) => {
+    const [threeFriendsInUsersProfile, setThreeFriendsInUsersProfile] = useState<IUsersProfiles>([]);
+    
+
+    useEffect(() => {
+        console.log("usersProfile", usersProfile);
+        console.log("randomUsersProfile", randomUsersProfile);
+        getRecommendFriendList(usersProfile, 3, setThreeFriendsInUsersProfile);
+    }, [])
 
     return(
         <div className="recommend_container">
@@ -35,6 +43,13 @@ const SideRecommend = ({ usersProfile, userObj, currentUser, randomUsersProfile 
                             </>
                         ) : (
                             <>
+                                {threeFriendsInUsersProfile?.map((element) => {
+                                    return (
+                                        <RecommendFriend 
+                                            key={element.userId} user={element} currentUser={currentUser} usersProfile={usersProfile} userObj={userObj} emailHoverState={false}
+                                        />
+                                    )
+                                })}
                             </>
                         )}
 

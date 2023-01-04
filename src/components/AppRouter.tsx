@@ -78,10 +78,11 @@ export type TSetToastAlert = React.Dispatch<React.SetStateAction<boolean>>;
 export type TToastText = string;
 export type TSetToastText = React.Dispatch<React.SetStateAction<string>>;
 export type TRefreshUserObj = () => void;
-export type TSetCurrentUser = React.Dispatch<React.SetStateAction<IUsersProfile | undefined>>
+export type TSetCurrentUser = React.Dispatch<React.SetStateAction<IUsersProfile | undefined>>;
 export type TGetCurrentUser = () => void;
 export type TRandomUsersProfiles = IUsersProfiles;
-
+export type TGetRecommendFriendList = (usersProfile : IUsersProfiles, number : number, setState : React.Dispatch<React.SetStateAction<IUsersProfiles>>) => void;
+// export type TGetRecommendFriendList = any; 
 
 
 const AppRouter = () => {
@@ -147,7 +148,6 @@ const AppRouter = () => {
             }
         } else{
             setCurrentUser(usersProfile?.filter(element => element.userId === userObj?.uid)[0]);
-            getRecommendFriendList()
         }
 
     }, [usersProfile])
@@ -195,27 +195,28 @@ const AppRouter = () => {
         for(let i=0;i<usersProfile.length;i++){
             newShuffledArray[i] = i;
         }
-        
+        console.log(arrayShuffle(newShuffledArray).slice(0, number));
         return (arrayShuffle(newShuffledArray).slice(0, number));
     }
 
     useEffect(() => {
-        getRecommendFriendList();
+        if(usersProfile !== undefined)
+        getRecommendFriendList(usersProfile, 3, setRandomUsersProfile);
     }, [currentPage])
 
-    const getRecommendFriendList = () => {
+    const getRecommendFriendList = (usersProfile : IUsersProfiles, number : number, setState : React.Dispatch<React.SetStateAction<IUsersProfiles>>) => {
         if(usersProfile){
             const usersProfileWithoutMe : IUsersProfiles = usersProfile.filter((element) => {
                 return element.userId !== userObj?.uid;
             });
     
-            const randomNumberArray = shuffleArray(usersProfileWithoutMe, 3);        
+            const randomNumberArray = shuffleArray(usersProfileWithoutMe, number);        
     
             const filteredUsersProfile = randomNumberArray.map(element => {
                 return usersProfileWithoutMe[element];
             })
     
-            setRandomUsersProfile(filteredUsersProfile);
+            setState(filteredUsersProfile);
         }
     }
 
@@ -251,7 +252,6 @@ const AppRouter = () => {
         }        
     }
 
-
     return(
         <>
             <Router>
@@ -279,7 +279,7 @@ const AppRouter = () => {
                                     <Route path='/' element={<Auth />} />
                                 )}
                             </Routes>
-                        {isLoggedIn && <SideRecommend usersProfile={usersProfile} userObj={userObj} currentUser={currentUser as IUsersProfile} randomUsersProfile={randomUsersProfile}/>}
+                        {isLoggedIn && <SideRecommend usersProfile={usersProfile} userObj={userObj} currentUser={currentUser as IUsersProfile} randomUsersProfile={randomUsersProfile} getRecommendFriendList={getRecommendFriendList} />}
                     </>
                 ) : (
                     <span className='loading_page'>LOADING...</span>

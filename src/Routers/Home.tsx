@@ -117,7 +117,6 @@ const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, se
         setCurrentPage("home");
         getCurrentUser();
     }, [])
-    console.log("data", data);
 
     return(
         <>
