@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import useScrollBlock from "../../hooks/useScrollBlock";
 import { TOnDeleteModalCancel, TOnDeleteTweet } from "./DeleteTweet";
 
 interface DeleteConfirmModalProp{
@@ -9,14 +10,15 @@ interface DeleteConfirmModalProp{
 
 const DeleteConfirmModal = ({ onDeleteTweet, onDeleteModalCancel } : DeleteConfirmModalProp) => {
 
-    useEffect(() => {
-        document.body.style.overflow = "hidden";
+    // useEffect(() => {
+    //     document.body.style.overflow = "hidden";
 
-        return () => {
-            document.body.style.overflow = 'auto';
-        }
-      }, []);
+    //     return () => {
+    //         document.body.style.overflow = 'auto';
+    //     }
+    //   }, []);
 
+    useScrollBlock();
 
     return(
         <> 

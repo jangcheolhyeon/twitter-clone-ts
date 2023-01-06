@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import useScrollBlock from "../../hooks/useScrollBlock";
 import { TNewDisplayName, TUserBackgroundAttachment } from "../../Routers/Profile";
 import UpdateUserInfoPage1 from "./UpdateUserInfoModalPages/UpdateUserInfoPage1";
 import UpdateUserInfoPage2 from "./UpdateUserInfoModalPages/UpdateUserInfoPage2";
@@ -29,14 +30,14 @@ const ModalUpdateProfile = ({ userAttachment, onUserAttachment, onUserBackground
     const pageIndex = ['page1', 'page2', 'page3'];
     const [currentPageIndex, setCurrentPageIndex] = useState<TCurrentPageIndex>(pageIndex[0]);
 
+    useScrollBlock();
+    // useEffect(() => {
+    //     document.body.style.overflow = "hidden";
 
-    useEffect(() => {
-        document.body.style.overflow = "hidden";
-
-        return() => {
-            document.body.style.overflow = 'auto';
-        }
-    }, [])
+    //     return() => {
+    //         document.body.style.overflow = 'auto';
+    //     }
+    // }, [])
 
     return(
         <div className="modal_update_profile_background">

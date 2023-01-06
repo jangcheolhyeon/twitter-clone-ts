@@ -5,6 +5,7 @@ import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 import { db, storageService } from '../../fbase';
+import useScrollBlock from '../../hooks/useScrollBlock';
 import { ITweetMessage, IUserObj, IUsersProfiles } from '../AppRouter';
 import { TOnRetweetModalToggle, TSetRetweetModalOpen } from '../Tweet';
 import TweetModalFooter from './TweetModalFooter';
@@ -23,13 +24,14 @@ const RetweetingModal = ({ userObj, onRetweetModalToggle, retweetContent, usersP
     const [modalRetweet, setModalRetweet] = useState<string>();
     const [attachment, setAttachment] = useState<string>('');
 
-    useEffect(() => {
-        document.body.style.overflow = "hidden";
+    // useEffect(() => {
+    //     document.body.style.overflow = "hidden";
 
-        return() => {
-            document.body.style.overflow = 'auto';
-        }
-    }, []);
+    //     return() => {
+    //         document.body.style.overflow = 'auto';
+    //     }
+    // }, []);
+    useScrollBlock();
 
     const onChangeModalRetweet = (event : React.ChangeEvent<HTMLInputElement>) => {
         setModalRetweet(event.target.value);

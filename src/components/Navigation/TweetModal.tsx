@@ -8,6 +8,7 @@ import { faXmark, faTimes, faDog, faCircleUser } from "@fortawesome/free-solid-s
 import { v4 } from "uuid";
 import TweetModalFooter from '../TweetAction/TweetModalFooter';
 import { TOnTweetModalToggle } from "./Navigation";
+import useScrollBlock from "../../hooks/useScrollBlock";
 
 
 interface TweetModalProp {
@@ -19,13 +20,16 @@ const TweetModal = ({ userObj, onTweetModalToggle } : TweetModalProp) => {
     const [modalTweet, setModalTweet] = useState<string>();
     const [attachment, setAttachment] = useState<string>('');
 
-    useEffect(() => {
-        document.body.style.overflow = "hidden";
+    //custom hook 
+    // useEffect(() => {
+        // document.body.style.overflow = "hidden";
 
-        return() => {
-            document.body.style.overflow = 'auto';
-        }
-    }, [])
+        // return() => {
+        //     document.body.style.overflow = 'auto';
+        // }
+
+    // }, [])
+    useScrollBlock();
 
     const onChangeModalTweet = (event : React.ChangeEvent<HTMLInputElement>) => {
         const {target : {value}} = event;
