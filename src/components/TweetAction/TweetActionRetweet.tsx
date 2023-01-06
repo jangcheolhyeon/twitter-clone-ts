@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { doc, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react';
 import { db } from '../../fbase';
+import useOutSideClick from '../../hooks/useOutSideClick';
 import { ITweetMessage, IUserObj, TSetToastAlert, TSetToastText } from '../AppRouter';
 import { TOnRetweetModalToggle, TRetweetActive, TRetweetHover, TSetRetweetActive, TSetRetweetHover } from '../Tweet';
 
@@ -27,13 +28,14 @@ const TweetActionRetweet = ({ tictoc, userObj, retweetHover, setRetweetHover, re
         setReplyState(replyStateInit());
     }, [])
 
-    useEffect(() => {
-        document.addEventListener("mousedown", reTweetOutSide);
-        return () => {
-            document.removeEventListener("mousedown", reTweetOutSide);
-        }
-    }, [retweetActive])
+    // useEffect(() => {
+    //     document.addEventListener("mousedown", reTweetOutSide);
+    //     return () => {
+    //         document.removeEventListener("mousedown", reTweetOutSide);
+    //     }
+    // }, [retweetActive])
 
+    
     const onRetweetToggle = (event : React.MouseEvent<HTMLDivElement>) => {
         event.stopPropagation();
         setRetweetHover(false);
@@ -45,7 +47,9 @@ const TweetActionRetweet = ({ tictoc, userObj, retweetHover, setRetweetHover, re
             onRetweetToggle(event);
         }
     }
-
+    
+    useOutSideClick(retweetActive, reTweetOutSide);
+    
     const replyStateInit = () => {
         if(tictoc.reply_users.includes(userObj!.uid)){
             return true;

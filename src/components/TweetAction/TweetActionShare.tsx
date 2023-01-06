@@ -1,6 +1,7 @@
 import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect, useRef } from 'react';
+import useOutSideClick from '../../hooks/useOutSideClick';
 
 const TweetActionShare = () => {
     const [shareHover, setShareHover] = useState<boolean>(false);
@@ -8,24 +9,26 @@ const TweetActionShare = () => {
     const shareRef = useRef<any>();
 
 
-    useEffect(() => {
-        document.addEventListener("mousedown", shareOutSide);
-        return () => {
-            document.removeEventListener("mousedown", shareOutSide);
-        }
-    }, [shareActive])
+    // useEffect(() => {
+    //     document.addEventListener("mousedown", shareOutSide);
+    //     return () => {
+    //         document.removeEventListener("mousedown", shareOutSide);
+    //     }
+    // }, [shareActive])
+
     
     const onShareToggle = (event : React.MouseEvent<SVGSVGElement>) => {
         event.stopPropagation();
         setShareActive((prev) => !prev);
     }
-
+    
     const shareOutSide = (event : any) => {
         if(shareActive && !event.path.includes(shareRef.current)){
             onShareToggle(event);
         }
     }
-
+    
+    useOutSideClick(shareActive, shareOutSide);   
     return(
         <>
             <div className="action_share_container"

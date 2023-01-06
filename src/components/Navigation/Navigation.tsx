@@ -6,6 +6,7 @@ import { faUser, faUserCircle, faHouse, faEllipsis, faCircleUser } from "@fortaw
 import TweetModal from "./TweetModal";
 import { getAuth, signOut } from "firebase/auth";
 import { IUserObj } from "../AppRouter"; 
+import useOutSideClick from "../../hooks/useOutSideClick";
 
 interface NavigationProp{
     userObj : IUserObj;
@@ -43,12 +44,14 @@ const Navigation = ({ userObj }: NavigationProp) => {
 
     }
 
-    useEffect(() => {
-        document.addEventListener("mousedown", onClickOutSide);
-        return () => {
-            document.removeEventListener("mousedown", onClickOutSide);
-        }
-    }, [logoutClicked])
+    // useEffect(() => {
+    //     document.addEventListener("mousedown", onClickOutSide);
+    //     return () => {
+    //         document.removeEventListener("mousedown", onClickOutSide);
+    //     }
+    // }, [logoutClicked])
+
+    useOutSideClick(logoutClicked, onClickOutSide);
 
     return(
         <>

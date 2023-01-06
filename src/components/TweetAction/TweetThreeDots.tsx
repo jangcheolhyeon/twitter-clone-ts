@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ITweetMessage, IUsersProfile } from "../AppRouter";
 import { db } from "../../fbase";
 import { doc, updateDoc } from "firebase/firestore";
+import useOutSideClick from "../../hooks/useOutSideClick";
 
 
 interface TweetThreeDotsProp{
@@ -29,6 +30,7 @@ const TweetThreeDots = ({ isOwner, currentUser, tictoc } : TweetThreeDotsProp) =
         }
     }
 
+    //삼항 연산자로 string은 const로 
     const handlePinActive = async() => {
         if(currentUser.pin === tictoc.id){
             await updateDoc(doc(db, "usersInfo", `${currentUser.id}`), {
@@ -43,13 +45,15 @@ const TweetThreeDots = ({ isOwner, currentUser, tictoc } : TweetThreeDotsProp) =
 
     }
 
+    useOutSideClick(threedotsActive, threedotsOutSide);
 
-    useEffect(() => {
-        document.addEventListener("mousedown", threedotsOutSide);
-        return () => {
-            document.removeEventListener("mousedown", threedotsOutSide);
-        }
-    }, [threedotsActive])
+
+    // useEffect(() => {
+    //     document.addEventListener("mousedown", threedotsOutSide);
+    //     return () => {
+    //         document.removeEventListener("mousedown", threedotsOutSide);
+    //     }
+    // }, [threedotsActive])
 
     return(
         <>
