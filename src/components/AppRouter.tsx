@@ -169,11 +169,7 @@ const AppRouter = () => {
             setUsersProfile(newUsersProfile);
         }
 
-    }, [currentUser])
-
-    useEffect(() => {
-        createAccountUser();
-    }, [userObj])
+    }, [currentUser, userObj])
 
     const insertUser = async() => {
         await addDoc(collection(db, 'usersInfo'), {
