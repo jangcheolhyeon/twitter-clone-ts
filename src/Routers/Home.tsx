@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { collection, addDoc, query, orderBy, limit, getDocs, startAfter } from "firebase/firestore"; 
 import { TSetUsersProfile, IUserObj, IUsersProfile, IUsersProfiles, TCurrentPage, TSetCurrentPage, TSetTweetDetail, TSetToastAlert, TSetToastText, ITweetMessages, TSetCurrentUser, TGetCurrentUser, ITweetMessage } from '../components/AppRouter';
 import { db } from '../fbase';
+import { useInView } from 'react-intersection-observer';
 import TweetFactory from '../components/Home/TweetFactory';
 import Tweet from '../components/Tweet';
 import LoadingTweets from '../components/LoadingComponents/LoadingTweets';
@@ -24,93 +25,57 @@ interface HomeProp{
 export type TLastTweet = boolean;
 
 const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, setUsersProfile, currentPage, setCurrentPage, setTweetDetail, setToastAlert, setToastText, getCurrentUser } : HomeProp) => {
-    const [data, setData] = useState<ITweetMessages>([]);
-    const [loading, setLoading] = useState<boolean>(false); 
-    const [loadingMore, setLoadingMore] = useState<boolean>(false); 
+    const [data, setData] = useState<ITweetMessages>([]); 
     const [key, setKey] = useState<any>(null);
     const [noMore, setNoMore] = useState<boolean>(false); 
-    const [target, setTarget] = useState<any>(null);
-    const initTweetLength = 5;
-    
-    const getFirstPage = useCallback(async () => {
-      const queryRef = query(
-        collection(db, 'tictoc'),
-        orderBy("bundle", "desc"),
-        limit(initTweetLength)
-      );
-      try {
-        setLoading(true);
-        
-        const snap = await getDocs(queryRef);
-        const docsArray : any = snap.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        
-        setData(docsArray);
-        
-        setKey(snap.docs[snap.docs.length - 1]);
-      } catch (err) {
-        console.log(err);
-      }
-      setLoading(false);
-    }, [initTweetLength]);
-  
-    const loadMore = useCallback(
-      async (loadCount : number) => {
-        const queryRef = query(
-          collection(db, 'tictoc'),
-          orderBy("bundle", "desc"),
-          startAfter(key), 
-          limit(loadCount)
-        );
-        try {
-          const snap : any = await getDocs(queryRef);
-          snap.empty ? setNoMore(true) : setKey(snap.docs[snap.docs.length - 1]);
+    const initTweetLen = 5; 
+    const [ref, inView] = useInView();
 
-          const docsArray = snap.docs.map((doc : any) => ({
+    // 1. 초기에 5개의 tweet을 불러와서 show한다.
+    useEffect(() => {
+        getFirstPage();
+    }, [])
+
+    const getFirstPage = async() => {
+        const queryA = query(collection(db, 'tictoc'), orderBy('bundle', 'desc'), limit(initTweetLen));
+    
+        const snap = await getDocs(queryA);
+        const docsArray : any = snap.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
-          }));
-          setData([...data, ...docsArray]); 
-        } catch (err) {
-          console.log(err);
-        }
-      },
-      [data, key]
-    );
+        }));
 
-  
-    const onIntersect = useCallback(
-      async ([entry] : any, observer : any) => {
-        if (entry.isIntersecting && !loadingMore ) {
-          observer.unobserve(entry.target);
-          setLoadingMore(true);
-          await loadMore(3);
-          setLoadingMore(false);
+        setData(docsArray);
+        setKey(snap.docs[snap.docs.length - 1]);
+    }
+
+    // 2. observer로 맨 밑바닥을 감지하면 추가로 state에 데이터를 넣어준다.
+    const loadMore = useCallback(async(moreTweetLen : number) => {
+        const queryB = query(
+            collection(db, 'tictoc'),
+            orderBy("bundle", "desc"),
+            startAfter(key), 
+            limit(moreTweetLen)
+        );
+
+        const snap : any = await getDocs(queryB);
+        snap.empty ? setNoMore(true) : setKey(snap.docs[snap.docs.length - 1]);
+
+        const docArray = snap.docs.map((doc : any) => ({
+            id : doc.id,
+            ...doc.data(),
+        }));
+        setData([...data, ...docArray]);
+    }, [inView])
+
+
+    useEffect(() => {
+        if(inView){
+            loadMore(3)
         }
-      },
-      [loadMore, loadingMore]
-    );
-  
-    useEffect(() => {
-      getFirstPage();
-    }, [messages, getFirstPage]);
-  
-    useEffect(() => {
-      let observer : any;
-      if (target && !noMore) {
-        observer = new IntersectionObserver(onIntersect, {
-          threshold: 0,
-        });
-        observer.observe(target);
-      }
-      return () => {
-        setLoading(false);
-        setLoadingMore(false);
-        observer && observer.disconnect();
-      };
-    }, [target, onIntersect, noMore]);
+    }, [loadMore, inView, noMore])
+
+
 
     useEffect(() => {
         window.scrollTo({top:0, behavior:'smooth'});
@@ -148,8 +113,8 @@ const Home = ({ messages, userObj, usersProfile, currentUser, setCurrentUser, se
                             </>
                         )}
                         
-                        {data.length >= initTweetLength && 
-                            <div ref={setTarget}></div>
+                        {data.length >= initTweetLen && 
+                            <div ref={ref}></div>
                         }
 
                         <div className='no_tweet_mark'>

@@ -270,7 +270,7 @@ const AppRouter = () => {
                                         <Route path='/detailsParent' element={<Details messages={messages} currentUser={currentUser as IUsersProfile} tweetDetail={tweetDetail} currentPage={currentPage} setCurrentPage={setCurrentPage} usersProfile={usersProfile} setUsersProfile={setUsersProfile} userObj={userObj} setToastAlert={setToastAlert} setToastText={setToastText} setTweetDetail={setTweetDetail} />} />                                   
                                     </>
                                 ) : (
-                                    <Route path='/' element={<Auth />} />
+                                        <Route path='/' element={<Auth />} />
                                 )}
                             </Routes>
                         {isLoggedIn && <SideRecommend usersProfile={usersProfile} userObj={userObj} currentUser={currentUser as IUsersProfile} randomUsersProfile={randomUsersProfile} getRecommendFriendList={getRecommendFriendList} />}
